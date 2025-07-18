@@ -33,7 +33,7 @@ async def post(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(response['choices'][0]['message']['content'])
 
 # Запуск приложения
-app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
+app = ApplicationBuilder().token(TELEGRAM_TOKEN).build_without_updater()
 app.add_handler(CommandHandler("start", start))
 app.add_handler(CommandHandler("пост", post))
 print("Бот запущен 🚀")
