@@ -1,0 +1,11 @@
+type: web
+name: instagram-content-bot
+env: python
+plan: free
+buildCommand: pip install -r requirements.txt
+startCommand: python main.py
+envVars:
+  - key: BOT_TOKEN
+    value: <ТВОЙ ТЕЛЕГРАМ ТОКЕН>
+  - key: OPENAI_API_KEY
+    value: <ТВОЙ OPENAI API KEY>
