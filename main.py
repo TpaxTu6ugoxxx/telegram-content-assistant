@@ -11,29 +11,31 @@ logging.basicConfig(level=logging.INFO)
 # Загрузка переменных
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
-TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+TELEGRAM_TOKEN = os.getenv("BOT_TOKEN")
 
-# Команда /start
+# /start — приветствие
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Привет! Я AI-бот для блогеров 😊 Выбери язык и начни генерацию контента!")
+    await update.message.reply_text("Привет, я твой контент-бот 😊 Напиши /пост <тема>, и я сгенерирую текст для соцсетей.")
 
-# Команда /пост <тема>
+# /пост <тема> — генерация с GPT
 async def post(update: Update, context: ContextTypes.DEFAULT_TYPE):
     topic = ' '.join(context.args)
     if not topic:
-        await update.message.reply_text("Укажи тему: /пост <тема>")
+        await update.message.reply_text("Пожалуйста, укажи тему после команды: /пост <тема>")
         return
 
     response = openai.ChatCompletion.create(
         model="gpt-4",
         messages=[
-            {"role": "user", "content": f"Напиши пост на тему: {topic}. Стиль: Instagram, дружелюбный."}
+            {"role": "user", "content": f"Напиши пост на тему: {topic}. Стиль — Instagram, разговорный, вдохновляющий."}
         ]
     )
-    await update.message.reply_text(response['choices'][0]['message']['content'])
+
+    content = response.choices[0].message.content
+    await update.message.reply_text(content)
 
 # Запуск приложения
-app = ApplicationBuilder().token(TELEGRAM_TOKEN).build_without_updater()
+app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
 app.add_handler(CommandHandler("start", start))
 app.add_handler(CommandHandler("пост", post))
 print("Бот запущен 🚀")
