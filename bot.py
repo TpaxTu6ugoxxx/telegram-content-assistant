@@ -8,6 +8,7 @@ load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 
+# Команда: /пост <тема>
 async def post(update: Update, context: ContextTypes.DEFAULT_TYPE):
     topic = ' '.join(context.args)
     if not topic:
@@ -17,13 +18,13 @@ async def post(update: Update, context: ContextTypes.DEFAULT_TYPE):
     response = openai.ChatCompletion.create(
         model="gpt-4",
         messages=[
-            {"role": "user", "content": f"Напиши пост на тему: {topic}. Стиль: Instagram, дружелюбный."}
+            {"role": "user", "content": f"Напиши пост на тему: {topic}. Стиль: дружелюбный, Instagram."}
         ]
     )
     await update.message.reply_text(response['choices'][0]['message']['content'])
 
+# Запуск приложения
 app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
 app.add_handler(CommandHandler("пост", post))
-
 print("Бот запущен 🚀")
 app.run_polling()
