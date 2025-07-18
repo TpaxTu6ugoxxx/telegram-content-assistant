@@ -37,6 +37,6 @@ async def post(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # Запуск приложения
 app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
 app.add_handler(CommandHandler("start", start))
-app.add_handler(CommandHandler("пост", post))
+app.add_handler(CommandHandler("post", post))
 print("Бот запущен 🚀")
 app.run_polling()
