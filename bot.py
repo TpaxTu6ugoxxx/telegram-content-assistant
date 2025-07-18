@@ -8,7 +8,6 @@ load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 
-# Команда: /пост <тема>
 async def post(update: Update, context: ContextTypes.DEFAULT_TYPE):
     topic = ' '.join(context.args)
     if not topic:
@@ -25,5 +24,6 @@ async def post(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
 app.add_handler(CommandHandler("пост", post))
+
 print("Бот запущен 🚀")
 app.run_polling()
